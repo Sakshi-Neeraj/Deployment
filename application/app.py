@@ -2,6 +2,7 @@ import pickle
 import re
 import string
 import nltk
+import os
 from flask import Flask, render_template, request
 nltk.download('punkt')
 from nltk.tokenize import word_tokenize
@@ -9,12 +10,12 @@ nltk.download('wordnet')
 from nltk.corpus import wordnet as wn
 from nltk.stem import WordNetLemmatizer
 
-filename = 'nlp_model.pkl'
-ensemble = pickle.load(open(filename, 'rb'))
-vectorization = pickle.load(open('transform.pkl', 'rb'))
+MODEL_PATH = os.getenv('MODEL_PATH', 'nlp_model.pkl')
+TRANSFORM_PATH = os.getenv('TRANSFORM_PATH', 'transform.pkl')
+ensemble = pickle.load(open(MODEL_PATH, 'rb'))
+vectorization = pickle.load(open(TRANSFORM_PATH, 'rb'))
 
 app = Flask(__name__)
-
 
 @app.route('/')
 def home():
@@ -41,6 +42,5 @@ def predict():
         my_prediction = ensemble.predict(vect)
     return render_template('result.html', prediction=my_prediction)
 
-
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run(host='0.0.0.0', port=5000, debug=False)

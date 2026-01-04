@@ -1,0 +1,13 @@
+{{- if .Values.configMap.enabled }}
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ include "fake-news-detector.fullname" . }}
+  labels:
+    {{- include "fake-news-detector.labels" . | nindent 4 }}
+data:
+  model-path: {{ .Values.configMap.modelPath | quote }}
+  transform-path: {{ .Values.configMap.transformPath | quote }}
+  app-env: {{ .Values.configMap.appEnv | quote }}
+  debug-mode: {{ .Values.configMap.debugMode | quote }}
+{{- end }}

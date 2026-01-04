@@ -1,0 +1,6 @@
+apiVersion: v2
+name: fake-news-detector
+description: A Helm chart for deploying Fake News Detector web app on EKS
+type: application
+version: 1.0.0
+appVersion: "1.0.0"

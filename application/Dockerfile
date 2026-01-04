@@ -13,5 +13,8 @@ RUN pip install -r requirements.txt
 # Copy the rest of the application code into the container
 COPY . .
 
-# Define the command to run the application
-CMD ["python", "app.py"]
+# Expose port 5000
+EXPOSE 5000
+
+# Use gunicorn for production-grade server
+CMD ["gunicorn", "--bind", "0.0.0.0:5000", "--workers", "4", "app:app"]
