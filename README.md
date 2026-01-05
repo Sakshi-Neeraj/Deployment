@@ -1,3 +1,3 @@
 # DevOps_Project
 
-Repository for deploying Application Docker Image on EKS
+Repository for deploying Application Docker Image on Kubernetes
