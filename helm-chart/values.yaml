@@ -38,7 +38,3 @@ ingress:
       paths:
         - path: /
           pathType: Prefix
-  tls:
-    - secretName: fake-news-detector-tls
-      hosts:
-        - fake-news-detector.com
