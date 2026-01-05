@@ -8,6 +8,4 @@ metadata:
 data:
   model-path: {{ .Values.configMap.modelPath | quote }}
   transform-path: {{ .Values.configMap.transformPath | quote }}
-  app-env: {{ .Values.configMap.appEnv | quote }}
-  debug-mode: {{ .Values.configMap.debugMode | quote }}
 {{- end }}

@@ -5,18 +5,12 @@ metadata:
   labels:
     {{- include "fake-news-detector.labels" . | nindent 4 }}
 spec:
-  {{- if not .Values.autoscaling.enabled }}
   replicas: {{ .Values.replicaCount }}
-  {{- end }}
   selector:
     matchLabels:
       {{- include "fake-news-detector.selectorLabels" . | nindent 6 }}
   template:
     metadata:
-      {{- if .Values.configMap.enabled }}
-      annotations:
-        checksum/config: {{ include (print $.Template.BasePath "/configmap.yaml") . | sha256sum }}
-      {{- end }}
       labels:
         {{- include "fake-news-detector.selectorLabels" . | nindent 8 }}
     spec:
@@ -38,22 +32,6 @@ spec:
         - name: http
           containerPort: 5000
           protocol: TCP
-        {{- if .Values.healthCheck.liveness.enabled }}
-        livenessProbe:
-          httpGet:
-            path: /
-            port: http
-          initialDelaySeconds: {{ .Values.healthCheck.liveness.initialDelaySeconds }}
-          periodSeconds: {{ .Values.healthCheck.liveness.periodSeconds }}
-        {{- end }}
-        {{- if .Values.healthCheck.readiness.enabled }}
-        readinessProbe:
-          httpGet:
-            path: /
-            port: http
-          initialDelaySeconds: {{ .Values.healthCheck.readiness.initialDelaySeconds }}
-          periodSeconds: {{ .Values.healthCheck.readiness.periodSeconds }}
-        {{- end }}
         resources:
           {{- toYaml .Values.resources | nindent 12 }}
         {{- if .Values.configMap.enabled }}
@@ -68,37 +46,3 @@ spec:
             configMapKeyRef:
               name: {{ include "fake-news-detector.fullname" . }}
               key: transform-path
-        - name: APP_ENV
-          valueFrom:
-            configMapKeyRef:
-              name: {{ include "fake-news-detector.fullname" . }}
-              key: app-env
-        - name: DEBUG_MODE
-          valueFrom:
-            configMapKeyRef:
-              name: {{ include "fake-news-detector.fullname" . }}
-              key: debug-mode
-        {{- end }}
-        volumeMounts:
-        - name: model-storage
-          mountPath: /app/models
-      volumes:
-      - name: model-storage
-        {{- if .Values.persistence.enabled }}
-        persistentVolumeClaim:
-          claimName: {{ include "fake-news-detector.fullname" . }}
-        {{- else }}
-        emptyDir: {}
-        {{- end }}
-      {{- with .Values.nodeSelector }}
-      nodeSelector:
-        {{- toYaml . | nindent 8 }}
-      {{- end }}
-      {{- with .Values.affinity }}
-      affinity:
-        {{- toYaml . | nindent 8 }}
-      {{- end }}
-      {{- with .Values.tolerations }}
-      tolerations:
-        {{- toYaml . | nindent 8 }}
-      {{- end }}
