@@ -26,15 +26,3 @@ configMap:
   enabled: true
   modelPath: /app/nlp_model.pkl
   transformPath: /app/transform.pkl
-
-ingress:
-  enabled: true
-  className: "nginx"
-  annotations:
-    cert-manager.io/cluster-issuer: "fnd-issuer"
-    nginx.ingress.kubernetes.io/rewrite-target: /
-  hosts:
-    - host: fake-news-detector.com
-      paths:
-        - path: /
-          pathType: Prefix
