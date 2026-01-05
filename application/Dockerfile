@@ -16,5 +16,4 @@ COPY . .
 # Expose port 5000
 EXPOSE 5000
 
-# Use gunicorn for production-grade server
-CMD ["gunicorn", "--bind", "0.0.0.0:5000", "--workers", "4", "app:app"]
+CMD ["python", "app.py"]
