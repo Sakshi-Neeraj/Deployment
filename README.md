@@ -9,3 +9,4 @@ Repository for deploying Application Docker Image on Kubernetes
 5. minikube start --driver=docker
 6. minikube status
 7. Get into this Deployment folder directory
+8. helm install fake-news-detector ./helm-chart
