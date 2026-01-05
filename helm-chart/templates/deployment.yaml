@@ -46,3 +46,4 @@ spec:
             configMapKeyRef:
               name: {{ include "fake-news-detector.fullname" . }}
               key: transform-path
+        {{- end }}
