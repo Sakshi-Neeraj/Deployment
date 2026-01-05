@@ -26,3 +26,7 @@ configMap:
   enabled: true
   modelPath: /app/nlp_model.pkl
   transformPath: /app/transform.pkl
+
+serviceAccount:
+  create: true
+  name: ""
